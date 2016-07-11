@@ -1,4 +1,6 @@
-#require 'pry'
+pl_id = ARGV[0] || fail("No playlist id provided")
+key = File.read('.api_key')
+
 require 'fileutils'
 require 'google/apis'
 require 'google/apis/youtube_v3'
@@ -6,8 +8,6 @@ require 'google/apis/youtube_v3'
 TIMESTAMP = '%Y%m%d%H%M%S'
 Video = Struct.new(:snippet, :content_details)
 
-key = File.read('.api_key')
-pl_id = ARGV[0] || fail("No playlist id provided")
 s = Google::Apis::YoutubeV3::YouTubeService.new
 s.key = key
 
