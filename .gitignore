@@ -1,0 +1,6 @@
+*.swp
+.api_key
+.pid
+tags
+log
+data/*
