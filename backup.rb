@@ -6,7 +6,6 @@ require 'google/apis'
 require 'google/apis/youtube_v3'
 
 TIMESTAMP = '%Y%m%d%H%M%S'
-Video = Struct.new(:snippet, :content_details)
 
 api = Google::Apis::YoutubeV3::YouTubeService.new
 api.key = key
@@ -23,11 +22,13 @@ video_ids = playlist_items.map(&:content_details).map(&:video_id)
 videos = video_ids.each_slice(50).map { |ids| ids.join(',') }.map do |ids|
   snips = api.list_videos(:snippet, id: ids).items.map(&:snippet)
   cds = api.list_videos(:content_details, id: ids).items
-  snips.zip(cds).map { |snip, cd| Video.new(snip, cd) }
+  snips.zip(cds).map { |snip, cd| {snippet: snip, content_details: cd} }
 end.flatten
 
-data = videos.map { |v| { id: v.content_details.id, title: v.snippet.title } }
-file_name = "data/#{Time.now.strftime(TIMESTAMP)}"
+file_name = "data/#{Time.now.strftime(TIMESTAMP)}.json"
+homemade_json = JSON.pretty_generate(JSON.parse('[' + videos.map do |v|
+  "{\"snippet\": #{v[:snippet].to_json}, \"content_details\": #{v[:content_details].to_json}}"
+end.join(',') + ']'))
 Dir.mkdir('data') unless Dir.exist?('data')
-File.write(file_name, JSON.pretty_generate(data))
-puts "Saved #{data.length} records to #{file_name}"
+File.write(file_name, homemade_json)
+puts "Saved #{videos.length} records to #{file_name}"
