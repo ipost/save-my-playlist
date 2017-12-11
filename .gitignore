@@ -4,3 +4,5 @@
 tags
 log
 data/*
+playlist_id
+config.json
