@@ -1,5 +1,5 @@
 pl_id = ARGV[0] || fail("No playlist id provided")
-key = File.read('.api_key')
+key = File.read('.api_key').chomp
 
 require 'fileutils'
 require 'google/apis'
