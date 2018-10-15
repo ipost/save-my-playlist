@@ -29,6 +29,7 @@ GEM
       signet (~> 0.7)
     httpclient (2.8.0)
     hurley (0.2)
+    json (2.1.0)
     jwt (1.5.4)
     little-plugger (1.1.4)
     logging (2.1.0)
@@ -69,7 +70,8 @@ PLATFORMS
 DEPENDENCIES
   google-api-client
   google_drive
+  json
   pry
 
 BUNDLED WITH
-   1.11.2
+   1.16.6

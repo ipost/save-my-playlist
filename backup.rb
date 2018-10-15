@@ -1,4 +1,5 @@
-pl_id = ARGV[0] || fail("No playlist id provided")
+
+pl_id = ARGV[0] || (puts("No playlist id provided"); exit(1))
 key = File.read('.api_key').chomp
 
 require 'fileutils'
